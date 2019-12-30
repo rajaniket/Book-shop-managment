@@ -1,4 +1,5 @@
 // example based on accessing pointer type data member
+// example based on accessing pointer type data member
 #include <iostream>
 #include<string.h>
 #include<string>
@@ -32,12 +33,12 @@ delete []a;
 void Search(){
 string *p=new string;
 int *s=new int[2]{0};
+while(s[0]==0){
 cout<<"press 1 : For search by Book's Title"<<endl;
 cout<<"Press 2 : For search by author name"<<endl;
 cout<<"Press 3 : For search by publisher"<<endl;
 cout<<"Press 4 : For search Book's by price range"<<endl;
 cout<<"Press 5 : For exit search"<<endl;
-while(s[0]==0){
 cin>>s[0];
 cin.ignore();
 switch(s[0]){
@@ -50,14 +51,16 @@ case 1: cout<<"Enter Book's Title :";
                   }}
         if(s[1]==0){
             cout<<"No match Found\nFor searching again press \'c\' otherwise press other key for back menu"<<endl;
-            char *s=new char;
-            cin>>*s;
+            char *m=new char;
+            cin>>m;
             cin.ignore();
-            if(*s=='c'||*s=='C'){
-                continue;}
 
+            if(*m=='c'||*m=='C'){
+             s[0]=0; // for continue statement to be work ,loop condition should must be followed
+            continue;  }
+            delete m;
             }
-             delete s;
+
         break;
 
 case 2: cout<<"Enter Author Name :";
@@ -66,34 +69,36 @@ case 2: cout<<"Enter Author Name :";
                if(substring_find(author[i],*p)){
                   disp(i); s[1]++;
                   }}
-        if(s[1]==0){
-            cout<<"No match Found\nFor searching again press \'c\' otherwise exit search"<<endl;
-            char *s=new char;
-            cin>>*s;
+                if(s[1]==0){
+            cout<<"No match Found\nFor searching again press \'c\' otherwise press other key for back menu"<<endl;
+            char *m=new char;
+            cin>>m;
             cin.ignore();
-            if(*s=='c'||*s=='C'){
-               delete s;
+            if(*m=='c'||*m=='C'){
+                    s[0]=0;
                 continue;}
+            delete m;
             }
-        break;
 
+        break;
 case 3: cout<<"Enter Publisher :";
         getline(cin,*p);
         for(int i=0;i<count;i++){
                if(substring_find(publisher[i],*p)){
                   disp(i); s[1]++;
                   }}
-        if(s[1]==0){
-            cout<<"No match Found\nFor searching again press \'c\' otherwise exit search"<<endl;
-            char *s=new char;
-            cin>>*s;
+                if(s[1]==0){
+            cout<<"No match Found\nFor searching again press \'c\' otherwise press other key for back menu"<<endl;
+            char *m=new char;
+            cin>>m;
             cin.ignore();
-            if(*s=='c'||*s=='C'){
-               delete s;
+            if(*m=='c'||*m=='C'){
+                    s[0]=0;
                 continue;}
+            delete m;
             }
-        break;
 
+        break;
 case 4:cout<<"Enter Price :";
         getline(cin,*p);
         for(int i=0;i<count;i++){
@@ -102,24 +107,28 @@ case 4:cout<<"Enter Price :";
                 {
                   disp(i); s[1]++;
                   }}
-        if(s[1]==0){
-            cout<<"No match Found\nFor searching again press \'c\' otherwise exit search"<<endl;
-            char *s=new char;
-            cin>>*s;
+               if(s[1]==0){
+            cout<<"No match Found\nFor searching again press \'c\' otherwise press other key for back menu"<<endl;
+            char *m=new char;
+            cin>>m;
             cin.ignore();
-            if(*s=='c'||*s=='C'){
-               delete s;
+            if(*m=='c'||*m=='C'){
+                    s[0]=0; 
                 continue;}
+            delete m;
             }
+
         break;
 case 5: break;
 default: cout<<"INCORRECT INPUT!, Enter Correct input"<<endl;
         s[0]=0;
         break;
-}}}
-
+}}
+delete p;
+delete []s;
+}
 void disp(int j){
-cout<<"Title             Author           Publication            Price           Stock"<<endl;
+//cout<<"Title             Author           Publication            Price           Stock"<<endl;
 cout<<title[j]<<"           "<<author[j]<<"             "<<publisher[j]<<"             "<<price[j]<<"            "<<stock[j]<<endl;
 }
 int substring_find(string str,string sub_str){
@@ -131,8 +140,6 @@ if(i>=0)
 
 else return 0;
 }
-
-
 };
 int books::count=0;
 int main(){
@@ -144,3 +151,4 @@ a.Search();
 
 
 }
+
