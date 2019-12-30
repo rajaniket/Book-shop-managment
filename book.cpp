@@ -1,5 +1,3 @@
-// example based on accessing pointer type data member
-// example based on accessing pointer type data member
 #include <iostream>
 #include<string.h>
 #include<string>
