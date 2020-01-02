@@ -1,4 +1,4 @@
-// example based on accessing pointer type data member
+
 #include <iostream>
 #include<string.h>
 #include<string>
@@ -8,9 +8,10 @@ class books{
 
 string *title,*author,*publisher,*price,*stock;
 int size;
-int cart_count[10];
+int cart_count[10];   // this will store books i value which is store in cart;
 static int count;
-static int num;
+static int num;        // it stores number of books in the cart
+int store_search[10];  //this will store address of books which appears in search list (means i value of data members )
 
 public:
     books(int s){
@@ -29,6 +30,7 @@ public:
     void cart();
     void display_cart();
     int substring_find(string str,string sub_str);
+    void display_all();
 
 };
 void books::add(){
@@ -82,6 +84,7 @@ case 4:cout<<"Enter Price :";
 
                if(stof(price[i])<=stof(*p))
                 {
+                    store_search[s[1]]=i; // store_search will store address of all book which will appear after search
                   s[1]++;
                   disp(i,s[1]);
                   }}
@@ -111,6 +114,7 @@ int s=0;
 getline(cin,*p);
         for(int i=0;i<count;i++){
                if(substring_find(k[i],*p)){
+                 store_search[s]=i;
                   s++;
                   disp(i,s);
                 }}
@@ -134,8 +138,6 @@ void books::disp(int j,int c){
 //cout<<"Title             Author           Publication            Price           Stock"<<endl;
 cout<<c<<".  "<<title[j]<<"           "<<author[j]<<"             "<<publisher[j]<<"             "<<price[j]<<"            "<<stock[j]<<endl;
 }
-
-
 int books::substring_find(string str,string sub_str){
 transform(str.begin(),str.end(),str.begin(),::toupper);
 transform(sub_str.begin(),sub_str.end(),sub_str.begin(),::toupper);
@@ -146,24 +148,38 @@ if(i>=0)
 else return 0;
 }
 
-
 void books::cart(){
-string *h=new string[2];
-cout<<"Enter Title and Author name"<<endl;
-getline(cin,h[0]);
-getline(cin,h[1]);
-for(int i=0;i<count;i++){
-   if(substring_find(title[i],h[0]) && substring_find(author[i],h[1])){
-      cart_count[num]=i;
-      num++;
-      break;
-   }}}
+int *h=new int[2];
+cout<<"Enter Book serial number : ";
+cin>>h[0];
+cout<<"Title of book:- "<<title[store_search[h[0]-1]]<<endl<<"Author:- "<<author[store_search[h[0]-1]]<<endl<<"Publication:- "<<publisher[store_search[h[0]-1]]<<endl<<"Price:- "<<price[store_search[h[0]-1]]<<endl<<"Stock:- "<<stock[store_search[h[0]-1]]<<endl;
+cout<<"Enter number of book required : ";
+cin>>h[1];
 
+       if(((stoi(stock[store_search[h[0]-1]])>=(h[1])))){
+       cart_count[num]=store_search[h[0]-1];
+       cout<<"Book Successfully added to cart"<<endl;
+       num++;}
+       else cout<<"Not Available, Failed to add"<<endl;
+
+   }
 
 void books::display_cart(){
+if(num>=1){
 for(int j=0;j<num;j++){
  cout<<j+1<<".  "<<title[cart_count[j]]<<"           "<<author[cart_count[j]]<<"             "<<publisher[cart_count[j]]<<"             "<<price[cart_count[j]]<<"            "<<stock[cart_count[j]]<<endl;
 }
+}
+else cout<<"There is no any book in the cart"<<endl;
+}
+
+void books :: display_all(){
+  if(count>=1){
+    for(int i=0;i<count;i++){
+        disp(i,i+1);
+    }
+  }
+  else cout<<"There is no book added yet"<<endl;
 }
 
 int books::count=0;
@@ -172,10 +188,15 @@ int books::num=0;
 
 int main(){
 books a(5);
+
 a.add();
-a.add();
-a.add();
-a.Search();
+//a.add();
+//a.add();
+//a.Search();
+cout<<"add to cart"<<endl;
+//
+//a.cart();
 //a.display_cart();
+a.display_all();
 }
 
