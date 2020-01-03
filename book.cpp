@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include<string.h>
 #include<string>
@@ -8,8 +7,8 @@ class books{
 
 string *title,*author,*publisher,*price,*stock;
 int size;
-int cart_count[10];   // this will store books i value which is store in cart;
-static int count;
+int cart_count[2][10];   // this will store books i value which is store in cart;
+static int count;       // how many books there have in library
 static int num;        // it stores number of books in the cart
 int store_search[10];  //this will store address of books which appears in search list (means i value of data members )
 
@@ -31,6 +30,7 @@ public:
     void display_cart();
     int substring_find(string str,string sub_str);
     void display_all();
+    void edit_cart();
 
 };
 void books::add(){
@@ -155,9 +155,12 @@ cin>>h[0];
 cout<<"Title of book:- "<<title[store_search[h[0]-1]]<<endl<<"Author:- "<<author[store_search[h[0]-1]]<<endl<<"Publication:- "<<publisher[store_search[h[0]-1]]<<endl<<"Price:- "<<price[store_search[h[0]-1]]<<endl<<"Stock:- "<<stock[store_search[h[0]-1]]<<endl;
 cout<<"Enter number of book required : ";
 cin>>h[1];
+cin.ignore();
 
        if(((stoi(stock[store_search[h[0]-1]])>=(h[1])))){
-       cart_count[num]=store_search[h[0]-1];
+       cart_count[0][num]=store_search[h[0]-1];
+       cart_count[1][num]=h[1];
+       stock[store_search[h[0]-1]]=to_string(stoi(stock[store_search[h[0]-1]])-h[1]);
        cout<<"Book Successfully added to cart"<<endl;
        num++;}
        else cout<<"Not Available, Failed to add"<<endl;
@@ -165,13 +168,47 @@ cin>>h[1];
    }
 
 void books::display_cart(){
+    float total=0;
 if(num>=1){
 for(int j=0;j<num;j++){
- cout<<j+1<<".  "<<title[cart_count[j]]<<"           "<<author[cart_count[j]]<<"             "<<publisher[cart_count[j]]<<"             "<<price[cart_count[j]]<<"            "<<stock[cart_count[j]]<<endl;
+ cout<<j+1<<".  "<<title[cart_count[0][j]]<<"           "<<author[cart_count[0][j]]<<"             "<<publisher[cart_count[0][j]]<<"             "<<price[cart_count[0][j]]<<"            "<<cart_count[1][j]<<endl;
+  total=total+stof(price[cart_count[0][j]])*cart_count[1][j];
 }
+cout<<"Total price :- "<<total<<" Rupees"<<endl;
+edit_cart();
 }
 else cout<<"There is no any book in the cart"<<endl;
 }
+void books::edit_cart(){
+cout<<"\n\nPress D for deleting books into cart :- ";
+cout<<"Press T for transaction:- ";
+cout<<"Press Any other key for Back Menu";
+char *w=new char;
+int *g=new int;
+cin>>*w;
+*w=toupper(*w);
+switch(*w){
+case 'D': cout<<"Enter serial number"<<endl;
+     while(num>0){
+        cin>>*g;
+        if(*g<=num && *g>0)
+            break;
+        else cout<<"Wrong input, Enter Correct serial number :- "<<endl;
+        }
+     stock[cart_count[0][*g]]=to_string(stoi(stock[cart_count[0][*g]])+cart_count[1][*g]);
+       for(int i=(*g-1);i<num;i++){
+          cart_count[0][i]=cart_count[0][i+1];
+          cart_count[1][i]=cart_count[1][i+1];
+       }
+       cout<<"Book successfully removed from cart"<<endl;
+
+
+case 'T': num=0;
+
+default: break;
+}}
+
+
 
 void books :: display_all(){
   if(count>=1){
@@ -192,11 +229,16 @@ books a(5);
 a.add();
 //a.add();
 //a.add();
-//a.Search();
+a.Search();
 cout<<"add to cart"<<endl;
-//
-//a.cart();
-//a.display_cart();
+a.cart();
+a.display_cart();
+cout<<"displaying all"<<endl;
 a.display_all();
+cout<<"displaying cart"<<endl;
+a.display_cart();
+cout<<"displaying all"<<endl;
+a.display_all();
+
 }
 
