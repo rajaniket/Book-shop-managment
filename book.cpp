@@ -22,11 +22,11 @@ public:
     stock=new string[s];
     }
     // declaring  functions
-    void add();
-    void Search();
-    int subsearch(string *k);
+    void add(); // function to add books in the lish
+    void Search();  // function for searching book 
+    int subsearch(string *k); //search by suggestion
     void disp(int,int);
-    void cart();
+    void cart();  // adding book into kart
     void display_cart();
     int substring_find(string str,string sub_str);
     void display_all();
